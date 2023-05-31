@@ -1,0 +1,6 @@
+Data Source=MARIAM;Initial Catalog=Bank;Integrated Security=True
+BankDataSet1
+
+
+Data Source=MARIAM;Initial Catalog=BankSystem;Integrated Security=True
+BankSystemDataSet

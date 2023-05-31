@@ -1,0 +1,475 @@
+/==============================================================/
+/* DBMS name:      Microsoft SQL Server 2017                    */
+/* Created on:     5/27/2022 8:38:52 PM                         */
+/==============================================================/
+CREATE DATABASE BankSystem
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('"3"') and o.name = 'FK_3_3_EMPLOYEE')
+alter table "3"
+   drop constraint FK_3_3_EMPLOYEE
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('"3"') and o.name = 'FK_3_32_CUSTOMER')
+alter table "3"
+   drop constraint FK_3_32_CUSTOMER
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('ACCOUNT') and o.name = 'FK_ACCOUNT_HAS_CUSTOMER')
+alter table ACCOUNT
+   drop constraint FK_ACCOUNT_HAS_CUSTOMER
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('BRANCH') and o.name = 'FK_BRANCH_0_BANK')
+alter table BRANCH
+   drop constraint FK_BRANCH_0_BANK
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('CUSTOMER') and o.name = 'FK_CUSTOMER_2_BRANCH')
+alter table CUSTOMER
+   drop constraint FK_CUSTOMER_2_BRANCH
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('CUSTOMER_PHONENUM') and o.name = 'FK_CUSTOMER_1_CUSTOMER')
+alter table CUSTOMER_PHONENUM
+   drop constraint FK_CUSTOMER_1_CUSTOMER
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('EMPLOYEE') and o.name = 'FK_EMPLOYEE_WORKSFOR_BRANCH')
+alter table EMPLOYEE
+   drop constraint FK_EMPLOYEE_WORKSFOR_BRANCH
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('LOAN') and o.name = 'FK_LOAN_ADD_EMPLOYEE')
+alter table LOAN
+   drop constraint FK_LOAN_ADD_EMPLOYEE
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('LOAN') and o.name = 'FK_LOAN_OFFERS_BRANCH')
+alter table LOAN
+   drop constraint FK_LOAN_OFFERS_BRANCH
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('LOAN') and o.name = 'FK_LOAN_TAKE_CUSTOMER')
+alter table LOAN
+   drop constraint FK_LOAN_TAKE_CUSTOMER
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('"3"')
+            and   name  = '32_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index "3"."32_FK"
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('"3"')
+            and   name  = '3_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index "3"."3_FK"
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('"3"')
+            and   type = 'U')
+   drop table "3"
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('ACCOUNT')
+            and   name  = 'HAS_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index ACCOUNT.HAS_FK
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('ACCOUNT')
+            and   type = 'U')
+   drop table ACCOUNT
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('BANK')
+            and   type = 'U')
+   drop table BANK
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('BRANCH')
+            and   name  = '0_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index BRANCH."0_FK"
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('BRANCH')
+            and   type = 'U')
+   drop table BRANCH
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('CUSTOMER')
+            and   name  = '2_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index CUSTOMER."2_FK"
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('CUSTOMER')
+            and   type = 'U')
+   drop table CUSTOMER
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('CUSTOMER_PHONENUM')
+            and   name  = '1_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index CUSTOMER_PHONENUM."1_FK"
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('CUSTOMER_PHONENUM')
+            and   type = 'U')
+   drop table CUSTOMER_PHONENUM
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('EMPLOYEE')
+            and   name  = 'WORKSFOR_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index EMPLOYEE.WORKSFOR_FK
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('EMPLOYEE')
+            and   type = 'U')
+   drop table EMPLOYEE
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('LOAN')
+            and   name  = 'ADD_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index LOAN.ADD_FK
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('LOAN')
+            and   name  = 'TAKE_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index LOAN.TAKE_FK
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('LOAN')
+            and   name  = 'OFFERS_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index LOAN.OFFERS_FK
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('LOAN')
+            and   type = 'U')
+   drop table LOAN
+go
+
+/==============================================================/
+/* Table: "3"                                                   */
+/==============================================================/
+create table "3" (
+   EMPID                int                  not null,
+   SSN                  bigint               not null,
+   constraint PK_3 primary key (EMPID, SSN)
+)
+go
+
+/==============================================================/
+/* Index: "3_FK"                                                */
+/==============================================================/
+
+
+
+
+create nonclustered index "3_FK" on "3" (EMPID ASC)
+go
+
+/==============================================================/
+/* Index: "32_FK"                                               */
+/==============================================================/
+
+
+
+
+create nonclustered index "32_FK" on "3" (SSN ASC)
+go
+
+/==============================================================/
+/* Table: ACCOUNT                                               */
+/==============================================================/
+create table ACCOUNT (
+   ACCOUNTNUM           int                  not null,
+   SSN                  bigint               not null,
+   ACCOUNTBALANCE       bigint               null,
+   ACCOUNTTYPE          varchar(1)           not null,
+   constraint PK_ACCOUNT primary key (ACCOUNTNUM)
+)
+go
+
+/==============================================================/
+/* Index: HAS_FK                                                */
+/==============================================================/
+
+
+
+
+create nonclustered index HAS_FK on ACCOUNT (SSN ASC)
+go
+
+/==============================================================/
+/* Table: BANK                                                  */
+/==============================================================/
+create table BANK (
+   CODE                 varchar(1)           not null,
+   BANKNAME             varchar(30)          null,
+   BANKCOUNTRY          varchar(15)          not null,
+   BANKSTREET           varchar(15)          null,
+   BANKZIPCODE          varchar(15)          null,
+   constraint PK_BANK primary key (CODE)
+)
+go
+
+/==============================================================/
+/* Table: BRANCH                                                */
+/==============================================================/
+create table BRANCH (
+   BRANCHNUM            int                  not null,
+   CODE                 varchar(1)           not null,
+   BRANCHCOUNTRY        varchar(15)          not null,
+   BRANCHSTREET         varchar(15)          null,
+   BRANCHZIPCODE        varchar(15)          null,
+   constraint PK_BRANCH primary key (BRANCHNUM)
+)
+go
+
+/==============================================================/
+/* Index: "0_FK"                                                */
+/==============================================================/
+
+
+
+
+create nonclustered index "0_FK" on BRANCH (CODE ASC)
+go
+
+/==============================================================/
+/* Table: CUSTOMER                                              */
+/==============================================================/
+create table CUSTOMER (
+   SSN                  bigint               not null,
+   BRANCHNUM            int                  not null,
+   FNAME                varchar(15)          not null,
+   LNAME                varchar(15)          null,
+   COUNTRY              varchar(15)          not null,
+   ZIPCODE              varchar(15)          null,
+   STREET               varchar(15)          null,
+   BUILDINGNUM          int                  null,
+   constraint PK_CUSTOMER primary key (SSN)
+)
+go
+
+/==============================================================/
+/* Index: "2_FK"                                                */
+/==============================================================/
+
+
+
+
+create nonclustered index "2_FK" on CUSTOMER (BRANCHNUM ASC)
+go
+
+/==============================================================/
+/* Table: CUSTOMER_PHONENUM                                     */
+/==============================================================/
+create table CUSTOMER_PHONENUM (
+   SSN                  bigint               not null,
+   PHONENUMBER          bigint               not null,
+   CUST_SSN             bigint               not null,
+   constraint PK_CUSTOMER_PHONENUM primary key (SSN, PHONENUMBER, CUST_SSN)
+)
+go
+
+/==============================================================/
+/* Index: "1_FK"                                                */
+/==============================================================/
+
+
+
+
+create nonclustered index "1_FK" on CUSTOMER_PHONENUM (SSN ASC)
+go
+
+/==============================================================/
+/* Table: EMPLOYEE                                              */
+/==============================================================/
+create table EMPLOYEE (
+   EMPID                int                  not null,
+   BRANCHNUM            int                  not null,
+   EMPFNAME             varchar(15)          not null,
+   EMPNAME              varchar(15)          null,
+   constraint PK_EMPLOYEE primary key (EMPID)
+)
+go
+
+/==============================================================/
+/* Index: WORKSFOR_FK                                           */
+/==============================================================/
+
+
+
+
+create nonclustered index WORKSFOR_FK on EMPLOYEE (BRANCHNUM ASC)
+go
+
+/==============================================================/
+/* Table: LOAN                                                  */
+/==============================================================/
+create table LOAN (
+   LOANNUM              bigint               not null,
+   BRANCHNUM            int                  not null,
+   SSN                  bigint               not null,
+   EMPID                int                  not null,
+   LOANTYPE             varchar(1)           not null,
+   LOANAMOUNT           bigint               null,
+   constraint PK_LOAN primary key (LOANNUM)
+)
+go
+
+/==============================================================/
+/* Index: OFFERS_FK                                             */
+/==============================================================/
+
+
+
+
+create nonclustered index OFFERS_FK on LOAN (BRANCHNUM ASC)
+go
+
+/==============================================================/
+/* Index: TAKE_FK                                               */
+/==============================================================/
+
+
+
+
+create nonclustered index TAKE_FK on LOAN (SSN ASC)
+go
+
+/==============================================================/
+/* Index: ADD_FK                                                */
+/==============================================================/
+
+
+
+
+create nonclustered index ADD_FK on LOAN (EMPID ASC)
+go
+
+alter table "3"
+   add constraint FK_3_3_EMPLOYEE foreign key (EMPID)
+      references EMPLOYEE (EMPID)
+go
+
+alter table "3"
+   add constraint FK_3_32_CUSTOMER foreign key (SSN)
+      references CUSTOMER (SSN)
+go
+
+alter table ACCOUNT
+   add constraint FK_ACCOUNT_HAS_CUSTOMER foreign key (SSN)
+      references CUSTOMER (SSN)
+go
+
+alter table BRANCH
+   add constraint FK_BRANCH_0_BANK foreign key (CODE)
+      references BANK (CODE)
+go
+
+alter table CUSTOMER
+   add constraint FK_CUSTOMER_2_BRANCH foreign key (BRANCHNUM)
+      references BRANCH (BRANCHNUM)
+go
+
+alter table CUSTOMER_PHONENUM
+   add constraint FK_CUSTOMER_1_CUSTOMER foreign key (SSN)
+      references CUSTOMER (SSN)
+go
+
+alter table EMPLOYEE
+   add constraint FK_EMPLOYEE_WORKSFOR_BRANCH foreign key (BRANCHNUM)
+      references BRANCH (BRANCHNUM)
+go
+
+alter table LOAN
+   add constraint FK_LOAN_ADD_EMPLOYEE foreign key (EMPID)
+      references EMPLOYEE (EMPID)
+go
+
+alter table LOAN
+   add constraint FK_LOAN_OFFERS_BRANCH foreign key (BRANCHNUM)
+      references BRANCH (BRANCHNUM)
+go
+
+alter table LOAN
+   add constraint FK_LOAN_TAKE_CUSTOMER foreign key (SSN)
+      references CUSTOMER (SSN)
+go
+
+
+DROP TABLE BankSystem
